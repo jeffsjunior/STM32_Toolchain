@@ -1,5 +1,4 @@
 # STM32_Toolchain
-==============
 
 A makefile based toolchain template for projects using the stm32 blue pill only.
 

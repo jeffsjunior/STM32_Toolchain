@@ -14,6 +14,7 @@ https://www.youtube.com/playlist?list=PLmHNaEMKsdtR_zGOMijqj7pHm-6XTKemH
 
 TODO: Explain configuration steps
 
+
 TODO: ADD Debug via VScode
 
 TODO: ADD folder for external libraries

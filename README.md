@@ -49,4 +49,4 @@ links to humans using your project. You can include links like:
 
 ## Licensing
 
-"The code in this project is licensed under GNU General Public License."
+The code in this project is licensed under GNU General Public License.

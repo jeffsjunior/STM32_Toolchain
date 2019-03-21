@@ -44,9 +44,9 @@ vpath %.c $(DEVICE)
 
 # Search path for Library
 
-vpath %.c $(TEMPLATEROOT)/Library/ff9/src
-vpath %.c $(TEMPLATEROOT)/Library/ff9/src/option
-vpath %.c $(TEMPLATEROOT)/Library
+vpath %.c $(TEMPLATEROOT)/LibraryDiscovering/ff9/src
+vpath %.c $(TEMPLATEROOT)/LibraryDiscovering/ff9/src/option
+vpath %.c $(TEMPLATEROOT)/LibraryDiscovering
 
 #  Processor specific
 PTYPE = STM32F10X_MD
@@ -66,7 +66,7 @@ LDFLAGS+= -Wl,--gc-sections
 CFLAGS+= -mcpu=cortex-m3 -mthumb 
 CFLAGS+= -I$(TEMPLATEROOT) -I$(DEVICE) -I$(CORE) -I$(PERIPH)/inc -I.
 CFLAGS+= -D$(PTYPE) -DUSE_STDPERIPH_DRIVER $(FULLASSERT) $(HSE_VALUE)
-CFLAGS+= -I$(TEMPLATEROOT)/Library/ff9/src -I$(TEMPLATEROOT)/Library
+CFLAGS+= -I$(TEMPLATEROOT)/LibraryDiscovering/ff9/src -I$(TEMPLATEROOT)/LibraryDiscovering
 CFLAGS+= -Wall -Wundef -Wredundant-decls #-Wmissing-prototypes
 
 

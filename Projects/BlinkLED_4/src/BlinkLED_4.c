@@ -1,6 +1,5 @@
 /*
- * BlinkLED_4.c - Blinks PC13 board LED using a nonblocking delay defined in
- * a library defined in the library directory
+ * BlinkLED_3.c - Blinks PC13 board LED using a library inside the library folder.
  * 
  * Copyright (C) 2019  Jefferson Silveira
  *
@@ -24,12 +23,12 @@
 #include <stm32f10x.h>
 #include <stm32f10x_rcc.h>
 #include <stm32f10x_gpio.h>
-#include "time_stm32.h"
+#include <time_stm32.h>
 
 #define Millis
 
 #ifdef Millis
-uint32_t tWaitMillis = 1000;
+uint32_t tWaitMillis = 500;
 uint32_t previousMillis = 0;
 #endif
 

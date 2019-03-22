@@ -12,7 +12,9 @@ ASFLAGS = -g
 
 # object files
 
-OBJS=  $(STARTUP) BlinkLED_2.o
+OBJS = $(STARTUP)
+
+OBJS += BlinkLED_2.o
 OBJS += stm32f10x_gpio.o stm32f10x_rcc.o
 
 # include common make file

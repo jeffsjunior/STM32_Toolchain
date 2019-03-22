@@ -60,6 +60,7 @@ vpath %.c $(DEVICE)
 vpath %.c $(TEMPLATEROOT)/LibraryDiscovering/ff9/src
 vpath %.c $(TEMPLATEROOT)/LibraryDiscovering/ff9/src/option
 vpath %.c $(TEMPLATEROOT)/LibraryDiscovering
+vpath %.c $(TEMPLATEROOT)/Library
 
 #  Processor specific
 PTYPE = STM32F10X_MD
@@ -80,14 +81,20 @@ CFLAGS+= -ggdb -mcpu=cortex-m3 -mthumb
 CFLAGS+= -I$(TEMPLATEROOT) -I$(DEVICE) -I$(CORE) -I$(PERIPH)/inc -I.
 CFLAGS+= -D$(PTYPE) -DUSE_STDPERIPH_DRIVER $(FULLASSERT) $(HSE_VALUE)
 CFLAGS+= -I$(TEMPLATEROOT)/LibraryDiscovering/ff9/src -I$(TEMPLATEROOT)/LibraryDiscovering
+CFLAGS+= -I$(TEMPLATEROOT)/Library
 CFLAGS+= -Wall -Wundef -Wredundant-decls #-Wmissing-prototypes
 
+.PHONY : info flash erase clean
 
 # Build executable 
-all : $(ELF) $(BIN) $(HEX) $(SYM)
+all : info $(ELF) $(BIN) $(HEX) $(SYM)
 	cp $(BUILD)/$(BUILDNAME).elf $(DEBUGPATH)/$(DELF) 
 	@echo "Done Compiling."
 	@python $(TEMPLATEROOT)/Utils/gen_stm32_meminfo.py $(BUILD)/$(SYM)
+
+info:
+	@echo Compiling... 
+	@echo $(OBJS)
 
 dump : $(ELF)
 	@$(DP) -D $(BUILD)/$< > $(BUILD)/$(BUILDNAME).dmp

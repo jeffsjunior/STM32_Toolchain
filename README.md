@@ -42,7 +42,6 @@ links to humans using your project. You can include links like:
 # TODO
 
 - Explain configuration steps
-- Add Debug via VScode (Next)
 - Add FreeRTOS
 
 ## Licensing

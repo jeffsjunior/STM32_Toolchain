@@ -1,6 +1,6 @@
 /*
- * BlinkLED_3.c - Blinks PC13 board LED using a nonblocking delay defined in
- * a library defined in the source directory
+ * BlinkLED_3.c - Blinks PC13 board LED using a nonblocking delay from a library
+ * in the source directory.
  * 
  * Copyright (C) 2019  Jefferson Silveira
  *

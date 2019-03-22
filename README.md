@@ -43,7 +43,6 @@ links to humans using your project. You can include links like:
 
 - Explain configuration steps
 - Add Debug via VScode (Next)
-- Clean Makefile and Add Memory Information
 - Add FreeRTOS
 
 ## Licensing

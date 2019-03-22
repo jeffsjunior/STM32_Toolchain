@@ -1,10 +1,19 @@
 # name of executable
 BUILDNAME = $(notdir $(CURDIR))
-ELF=$(BUILDNAME).elf                    
+
+# debug path
+DEBUGPATH = $(TEMPLATEROOT)/Debug
+
+#Build name files
+
+ELF=$(BUILDNAME).elf  
+                
 BIN=$(BUILDNAME).bin
 HEX=$(BUILDNAME).hex
 SYM=$(BUILDNAME).sym
 DMP=$(BUILDNAME).dmp
+
+DELF=debug.elf
 
 #Verificar essas flags
 #LD_OPTIONS=-nostartfiles -EL --gc-sections
@@ -67,7 +76,7 @@ LDFLAGS+= --specs=nosys.specs
 LDFLAGS+= -Wl,--gc-sections
 
 
-CFLAGS+= -mcpu=cortex-m3 -mthumb 
+CFLAGS+= -ggdb -mcpu=cortex-m3 -mthumb 
 CFLAGS+= -I$(TEMPLATEROOT) -I$(DEVICE) -I$(CORE) -I$(PERIPH)/inc -I.
 CFLAGS+= -D$(PTYPE) -DUSE_STDPERIPH_DRIVER $(FULLASSERT) $(HSE_VALUE)
 CFLAGS+= -I$(TEMPLATEROOT)/LibraryDiscovering/ff9/src -I$(TEMPLATEROOT)/LibraryDiscovering
@@ -76,6 +85,7 @@ CFLAGS+= -Wall -Wundef -Wredundant-decls #-Wmissing-prototypes
 
 # Build executable 
 all : $(ELF) $(BIN) $(HEX) $(SYM)
+	cp $(BUILD)/$(BUILDNAME).elf $(DEBUGPATH)/$(DELF) 
 	@echo "Done Compiling."
 	@python $(TEMPLATEROOT)/Utils/gen_stm32_meminfo.py $(BUILD)/$(SYM)
 
@@ -120,7 +130,7 @@ erase:
 
 clean:
 	@echo Cleaning...
-	rm -f $(OBJPATH)/*  $(BUILD)/*
+	rm -f $(OBJPATH)/*  $(BUILD)/* $(DEBUGPATH)/*
 	@echo Done Cleaning.
 
 debug: $(ELF)

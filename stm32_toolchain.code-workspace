@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"stm32f10x_gpio.h": "c",
+			"stm32f10x_rcc.h": "c",
+			"time_stm32.h": "c",
+			"*.ld": "c"
+		}
+	}
+}

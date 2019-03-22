@@ -3,6 +3,8 @@ BUILDNAME = $(notdir $(CURDIR))
 ELF=$(BUILDNAME).elf                    
 BIN=$(BUILDNAME).bin
 HEX=$(BUILDNAME).hex
+SYM=$(BUILDNAME).sym
+DMP=$(BUILDNAME).dmp
 
 #Verificar essas flags
 #LD_OPTIONS=-nostartfiles -EL --gc-sections
@@ -23,6 +25,8 @@ LD=arm-none-eabi-gcc
 AR=arm-none-eabi-ar
 AS=arm-none-eabi-as
 CP=arm-none-eabi-objcopy
+NM=arm-none-eabi-nm
+DP=arm-none-eabi-objdump
 # Code Paths
 
 DEVICE=$(LIBROOT)/Libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x
@@ -71,37 +75,54 @@ CFLAGS+= -Wall -Wundef -Wredundant-decls #-Wmissing-prototypes
 
 
 # Build executable 
-all : $(ELF) $(BIN) $(HEX)
-	@echo "Compile Success"
+all : $(ELF) $(BIN) $(HEX) $(SYM)
+	@echo "Done Compiling."
+	@python $(TEMPLATEROOT)/Utils/gen_stm32_meminfo.py $(BUILD)/$(SYM)
+
+dump : $(ELF)
+	@$(DP) -D $(BUILD)/$< > $(BUILD)/$(BUILDNAME).dmp
+
 
 $(ELF) : $(LD_OBJS)
-	$(LD) $(LDFLAGS) -o $(BUILD)/$@ $(LD_OBJS) $(LDLIBS)
+	@echo Compiling $@
+	@$(LD) $(LDFLAGS) -o $(BUILD)/$@ $(LD_OBJS) $(LDLIBS)
 
 
 $(BIN): $(ELF)
-	@echo "Compile Success" $<
-	$(CP) -Obinary $(BUILD)/$< $(BUILD)/$@
-
+	@echo Converting to $@
+	@$(CP) -Obinary $(BUILD)/$< $(BUILD)/$@
+	
 $(HEX): $(ELF)
-	$(CP) -Oihex $(BUILD)/$< $(BUILD)/$@
+	@echo Converting to $@
+	@$(CP) -Oihex $(BUILD)/$< $(BUILD)/$@
+
+$(SYM): $(ELF)
+	@$(NM) -g $(BUILD)/$< > $(BUILD)/$@
 
 # compile and generate dependency info
 
 $(OBJPATH)/%.o: %.c
-	$(CC) -c $(CFLAGS) $< -o $@
-	$(CC) -MM $(CFLAGS) $< > $(OBJPATH)/$*.d
+	@$(CC) -c $(CFLAGS) $< -o $@
+	@$(CC) -MM $(CFLAGS) $< > $(OBJPATH)/$*.d
 
 $(OBJPATH)/%.o: %.s
-	$(CC) -c $(CFLAGS) $< -o $@
-	$(CC) -MM $(CFLAGS) $< > $(OBJPATH)/$*.d
+	@$(CC) -c $(CFLAGS) $< -o $@
+	@$(CC) -MM $(CFLAGS) $< > $(OBJPATH)/$*.d
 
 
 flash:
+	@echo Writing to flash.
 	st-flash write $(BUILD)/$(BIN) 0x8000000
+
 erase:
+	@echo Erasing flash.
 	st-flash erase
+
 clean:
+	@echo Cleaning...
 	rm -f $(OBJPATH)/*  $(BUILD)/*
+	@echo Done Cleaning.
+
 debug: $(ELF)
 	arm-none-eabi-gdb $(ELF)
 

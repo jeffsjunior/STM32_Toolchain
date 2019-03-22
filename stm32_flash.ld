@@ -15,7 +15,7 @@
 **
 **  Environment : Atollic TrueSTUDIO(R)
 **
-**  Distribution: The file is distributed “as is,” without any warranty
+**  Distribution: The file is distributed ï¿½as is,ï¿½ without any warranty
 **                of any kind.
 **
 **  (c)Copyright Atollic AB.
@@ -47,6 +47,12 @@ MEMORY
   MEMORY_B1 (rx)  : ORIGIN = 0x60000000, LENGTH = 0K
 }
 
+_ld_text_start  = ABSOLUTE(ORIGIN(FLASH));  /* flash start address */
+_ld_data_start  = ABSOLUTE(ORIGIN(RAM));    /* ram start address */
+_ld_flash_len   = ABSOLUTE(LENGTH(FLASH));  /* flash lenght */
+_ld_ram_len     = ABSOLUTE(LENGTH(RAM));    /* ram lenght */
+
+
 /* Define output sections */
 SECTIONS
 {
@@ -64,6 +70,8 @@ SECTIONS
     . = ALIGN(4);
     *(.text)           /* .text sections (code) */
     *(.text*)          /* .text* sections (code) */
+    _ld_text_end = ABSOLUTE(.);
+    _ld_rodata_start = ABSOLUTE(.);
     *(.rodata)         /* .rodata sections (constants, strings, etc.) */
     *(.rodata*)        /* .rodata* sections (constants, strings, etc.) */
     *(.glue_7)         /* glue arm to thumb code */
@@ -107,6 +115,8 @@ SECTIONS
     PROVIDE_HIDDEN (__fini_array_end = .);
   } >FLASH
 
+  _ld_rodata_end = ABSOLUTE(.);
+
   /* used by the startup to initialize data */
   _sidata = .;
 
@@ -122,6 +132,8 @@ SECTIONS
     _edata = .;        /* define a global symbol at data end */
   } >RAM
 
+  _ld_data_end = ABSOLUTE(.);
+  _ld_bss_start = ABSOLUTE(.);
   /* Uninitialized data section */
   . = ALIGN(4);
   .bss :
@@ -138,16 +150,24 @@ SECTIONS
     __bss_end__ = _ebss;
   } >RAM
 
+  _ld_bss_end = ABSOLUTE(.);
+
   PROVIDE ( end = _ebss );
   PROVIDE ( _end = _ebss );
+
+  
 
   /* User_heap_stack section, used to check that there is enough RAM left */
   ._user_heap_stack :
   {
     . = ALIGN(4);
+    _ld_heap_start = ABSOLUTE(.);
     . = . + _Min_Heap_Size;
+    _ld_heap_end = ABSOLUTE(.);
+    _ld_stack_start = ABSOLUTE(.);
     . = . + _Min_Stack_Size;
     . = ALIGN(4);
+    _ld_stack_end = ABSOLUTE(.);
   } >RAM
 
   /* MEMORY_bank1 section, code must be located here explicitly            */

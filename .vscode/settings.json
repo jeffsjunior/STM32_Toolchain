@@ -1,4 +1,5 @@
 {
     "C_Cpp.intelliSenseCacheSize": 0,
-    "C_Cpp.intelliSenseEngineFallback": "Disabled"
+    "C_Cpp.intelliSenseEngineFallback": "Disabled",
+    "python.linting.pylintEnabled": false
 }

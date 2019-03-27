@@ -43,6 +43,7 @@ links to humans using your project. You can include links like:
 
 - Explain configuration steps
 - Add FreeRTOS
+- Configure Library path and defines on VSCode
 
 ## Licensing
 

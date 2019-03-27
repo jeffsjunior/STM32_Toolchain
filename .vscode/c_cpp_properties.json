@@ -5,7 +5,11 @@
             "includePath": [
                 "${workspaceFolder}/**"
             ],
-            "defines": [],
+            "defines": [
+                "STM32F10X_MD",
+                "USE_FULL_ASSERT",
+                "HSE_VALUE=8000000L"
+            ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
             "cppStandard": "c++17",

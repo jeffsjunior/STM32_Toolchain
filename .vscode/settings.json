@@ -1,5 +1,6 @@
 {
     "C_Cpp.intelliSenseCacheSize": 0,
     "C_Cpp.intelliSenseEngineFallback": "Disabled",
-    "python.linting.pylintEnabled": false
+    "python.pythonPath": "/home/descomplexando/.virtualenvs/cv/bin/python",
+    "python.linting.pylintEnabled": true
 }
